@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1.0",
+  "status_vocabulary": ["planned", "experimental", "verified"],
+  "adapters": [
+    {"id": "reference", "domain": "reference", "status": "verified"},
+    {"id": "oidc-enterprise", "domain": "human-identity", "status": "planned"},
+    {"id": "spiffe-spire", "domain": "workload-identity", "status": "planned"},
+    {"id": "authzen", "domain": "authorization", "status": "planned"},
+    {"id": "opa", "domain": "policy-engine", "status": "planned"},
+    {"id": "cedar", "domain": "policy-engine", "status": "planned"},
+    {"id": "pam-enterprise", "domain": "privileged-access", "status": "planned"},
+    {"id": "mcp-a2a", "domain": "agent-protocol", "status": "planned"},
+    {"id": "langgraph", "domain": "agent-orchestration", "status": "planned"},
+    {"id": "ros2-mavlink", "domain": "physical-ai", "status": "planned"},
+    {"id": "robot-black-box", "domain": "physical-evidence", "status": "planned"},
+    {"id": "grc-claw", "domain": "governance-evidence", "status": "planned"}
+  ]
+}

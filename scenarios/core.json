@@ -1,0 +1,16 @@
+{
+  "pack_id": "identity-fabric-core",
+  "version": "0.1.0",
+  "scenarios": [
+    {"id": "IFB-TENANT-001", "family": "tenant-isolation", "mandatory": true, "expected": "deny", "evidence": ["request", "decision", "tenant-context"]},
+    {"id": "IFB-DELEG-001", "family": "delegation", "mandatory": true, "expected": "deny", "evidence": ["parent-grant", "child-request", "decision"]},
+    {"id": "IFB-PURPOSE-001", "family": "purpose-binding", "mandatory": true, "expected": "deny", "evidence": ["grant-purpose", "request-purpose", "decision"]},
+    {"id": "IFB-REV-001", "family": "revocation", "mandatory": true, "expected": "deny", "evidence": ["revocation-time", "decision-time", "decision"]},
+    {"id": "IFB-PAM-001", "family": "privileged-access", "mandatory": true, "expected": "require-approval", "evidence": ["risk", "approval-policy", "decision"]},
+    {"id": "IFB-RAG-001", "family": "rag-authorization", "mandatory": true, "expected": "deny", "evidence": ["document-acl", "retrieval-principal", "retrieval-result"]},
+    {"id": "IFB-BIO-001", "family": "biometric-assertion", "mandatory": true, "expected": "deny", "evidence": ["assertion-id", "nonce", "audience", "decision"]},
+    {"id": "IFB-PHYS-001", "family": "physical-ai", "mandatory": true, "expected": "deny", "evidence": ["device-attestation", "safety-state", "action-lease", "decision"]},
+    {"id": "IFB-EVID-001", "family": "evidence", "mandatory": true, "expected": "complete", "evidence": ["principal", "delegation", "policy-revision", "result-digest"]},
+    {"id": "IFB-FAIL-001", "family": "availability", "mandatory": true, "expected": "deny", "evidence": ["partition-signal", "fallback-mode", "decision"]}
+  ]
+}

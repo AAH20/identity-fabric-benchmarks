@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://a2zsoc.com/schemas/identity-fabric-benchmark-result.schema.json",
+  "title": "Identity Fabric Benchmark Result",
+  "type": "object",
+  "required": ["result_version", "pack_id", "pack_version", "adapter", "qualified", "security_gates", "score", "observations", "generated_at"],
+  "properties": {
+    "result_version": {"const": "0.1.0"},
+    "pack_id": {"type": "string"},
+    "pack_version": {"type": "string"},
+    "adapter": {"type": "string"},
+    "qualified": {"type": "boolean"},
+    "security_gates": {"type": "object", "additionalProperties": {"type": "boolean"}},
+    "score": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
+    "observations": {"type": "array", "items": {"type": "object"}},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}
