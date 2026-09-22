@@ -24,7 +24,7 @@ flowchart LR
     O --> G{Security gates}
     G -->|gate failure| F[Unqualified result]
     G -->|all pass| M[Performance and assurance score]
-    M --> E[Signed evidence bundle]
+    M --> E[Evidence bundle; signing planned]
     E --> L[Public result ledger]
     E --> C[AgentIAM and GRC Claw]
     E --> R[Robot Black Box]
@@ -43,7 +43,7 @@ score = 0.35 assurance + 0.25 resilience + 0.20 performance
       + 0.10 interoperability + 0.10 evidence quality
 ```
 
-The v0.1 CLI validates the scenario pack and runs a deterministic reference adapter to prove the result contract. Real provider adapters must report observed results and attach evidence; self-reported marketing values are not benchmark results.
+The CLI validates the scenario pack and runs a deterministic reference adapter to prove the result contract. The reference run has no numeric score (`score: null`, `score_basis: not-scored`), even when its gates pass. Real provider adapters must report observed results and attach evidence; self-reported marketing values are not benchmark results.
 
 ## Core benchmark families
 
@@ -65,9 +65,11 @@ The v0.1 CLI validates the scenario pack and runs a deterministic reference adap
 ```bash
 python -m pip install -e .
 identity-fabric-bench validate
-identity-fabric-bench run --output reports/reference-result.json
+identity-fabric-bench run --output reports/reference-result.json --assurance-output reports/reference-assurance.json
 python -m unittest discover -s tests -v
 ```
+
+The optional assurance envelope follows [BioPhysical Assurance Commons' `assurance-result.v1` contract](https://github.com/AAH20/biophysical-assurance-commons/tree/main/packages/assurance-contracts), with pack and artifact digests. The reference run declares `synthetic-reference` and `verification: none`; it makes no claim of independent verification or provider performance.
 
 ## Adapter roadmap
 

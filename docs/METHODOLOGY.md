@@ -14,7 +14,7 @@ A mandatory scenario is a non-compensating gate. Any false allow, cross-tenant a
 
 ## Operational scoring
 
-Qualified systems may be scored across assurance, resilience, performance, interoperability, and evidence quality. Each metric must define units, sample size, percentiles, warmup, hardware, software version, network conditions, retry policy and confidence interval. The current reference runner uses a placeholder score of 100 only to test the result contract; it is not a provider benchmark.
+Qualified systems may be scored across assurance, resilience, performance, interoperability, and evidence quality. Each metric must define units, sample size, percentiles, warmup, hardware, software version, network conditions, retry policy and confidence interval. The reference runner returns `score: null` and `score_basis: not-scored`; passing synthetic gates is not a provider benchmark or a measured score.
 
 ## Evidence bundle
 
@@ -37,4 +37,4 @@ Results identify the tested version and configuration, never an entire vendor in
 
 ## Future A2ZSOC views
 
-The signed result format may later feed `a2zsoc.com/benchmarks`, `/providers`, and `/certification`. Website work is outside the current repository scope.
+The result format may later gain independent signatures and feed `a2zsoc.com/benchmarks`, `/providers`, and `/certification`. Signing and website work are outside the current repository scope.

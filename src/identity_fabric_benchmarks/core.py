@@ -57,13 +57,15 @@ def score_run(pack: dict, actual: dict[str, str], adapter: str = "reference") ->
         )
     qualified = bool(gates) and all(gates.values())
     return {
-        "result_version": "0.1.0",
+        "result_version": "0.2.0",
         "pack_id": pack["pack_id"],
         "pack_version": pack["version"],
         "adapter": adapter,
+        "run_kind": "synthetic-reference" if adapter == "reference" else "provider-observed",
         "qualified": qualified,
         "security_gates": gates,
-        "score": 100.0 if qualified else None,
+        "score": None,
+        "score_basis": "not-scored",
         "observations": observations,
         "generated_at": datetime.now(timezone.utc).isoformat(),
     }
