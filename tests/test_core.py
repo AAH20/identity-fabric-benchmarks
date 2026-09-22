@@ -2,9 +2,13 @@ import json
 import unittest
 from pathlib import Path
 
-from identity_fabric_benchmarks.core import load_pack, reference_observations, score_run, validate_pack
 from identity_fabric_benchmarks.assurance import digest, envelope
-
+from identity_fabric_benchmarks.core import (
+    load_pack,
+    reference_observations,
+    score_run,
+    validate_pack,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 

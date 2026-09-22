@@ -7,7 +7,9 @@ import json
 
 
 def digest(value: dict) -> str:
-    payload = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    payload = json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+    )
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
@@ -19,10 +21,13 @@ def envelope(pack: dict, result: dict) -> dict:
         "result_id": f"{pack['pack_id']}:{artifact_hash[:16]}",
         "producer": {
             "repository": "AAH20/identity-fabric-benchmarks",
-            "component": "reference-harness",
+            "component": result["adapter"],
             "version": result["result_version"],
         },
-        "run": {"kind": result["run_kind"], "environment": "local-reference"},
+        "run": {
+            "kind": result["run_kind"],
+            "environment": result.get("environment", "local-reference"),
+        },
         "subject": {
             "pack_id": pack["pack_id"],
             "pack_version": pack["version"],
@@ -30,7 +35,9 @@ def envelope(pack: dict, result: dict) -> dict:
         },
         "qualification": {
             "qualified": result["qualified"],
-            "failed_gates": sorted(key for key, passed in result["security_gates"].items() if not passed),
+            "failed_gates": sorted(
+                key for key, passed in result["security_gates"].items() if not passed
+            ),
             "score": result["score"],
             "score_basis": result["score_basis"],
         },
@@ -39,8 +46,11 @@ def envelope(pack: dict, result: dict) -> dict:
             "receipt_root_sha256": None,
             "verification": "none",
         },
-        "limitations": [
-            "Synthetic reference observations are not product measurements.",
-            "No signed receipt chain or independent verification is provided.",
-        ],
+        "limitations": result.get(
+            "limitations",
+            [
+                "Synthetic reference observations are not product measurements.",
+                "No signed receipt chain or independent verification is provided.",
+            ],
+        ),
     }

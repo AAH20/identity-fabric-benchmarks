@@ -1,0 +1,26 @@
+{
+  "pack_id": "authzen-local-synthetic",
+  "version": "0.1.0",
+  "fixtures": [
+    {
+      "id": "AZ-ALLOW-001",
+      "family": "positive-control",
+      "expected_decision": true,
+      "request": {
+        "subject": {"type": "user", "id": "synthetic-reader"},
+        "action": {"name": "can_read"},
+        "resource": {"type": "document", "id": "public-synthetic"}
+      }
+    },
+    {
+      "id": "AZ-DENY-001",
+      "family": "tenant-isolation",
+      "expected_decision": false,
+      "request": {
+        "subject": {"type": "user", "id": "synthetic-reader"},
+        "action": {"name": "can_read"},
+        "resource": {"type": "document", "id": "other-tenant-synthetic"}
+      }
+    }
+  ]
+}

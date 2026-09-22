@@ -5,7 +5,6 @@ from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
-
 EXPECTED_OUTCOMES = {"allow", "deny", "require-approval", "complete"}
 
 
@@ -32,12 +31,23 @@ def validate_pack(pack: dict) -> list[str]:
         if scenario.get("expected") not in EXPECTED_OUTCOMES:
             errors.append(f"{prefix}.expected is invalid")
         evidence = scenario.get("evidence")
-        if not isinstance(evidence, list) or not evidence or len(evidence) != len(set(evidence)):
+        if (
+            not isinstance(evidence, list)
+            or not evidence
+            or len(evidence) != len(set(evidence))
+        ):
             errors.append(f"{prefix}.evidence must be a non-empty unique array")
     return errors
 
 
-def score_run(pack: dict, actual: dict[str, str], adapter: str = "reference") -> dict:
+def score_run(
+    pack: dict,
+    actual: dict[str, str],
+    adapter: str = "reference",
+    run_kind: str = "synthetic-reference",
+) -> dict:
+    if run_kind not in {"synthetic-reference", "simulation", "provider-observed"}:
+        raise ValueError("invalid run_kind")
     observations = []
     gates: dict[str, bool] = {}
     for scenario in pack["scenarios"]:
@@ -61,7 +71,7 @@ def score_run(pack: dict, actual: dict[str, str], adapter: str = "reference") ->
         "pack_id": pack["pack_id"],
         "pack_version": pack["version"],
         "adapter": adapter,
-        "run_kind": "synthetic-reference" if adapter == "reference" else "provider-observed",
+        "run_kind": run_kind,
         "qualified": qualified,
         "security_gates": gates,
         "score": None,

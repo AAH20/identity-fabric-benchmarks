@@ -10,6 +10,8 @@
     "pack_version": {"type": "string"},
     "adapter": {"type": "string"},
     "run_kind": {"enum": ["synthetic-reference", "simulation", "provider-observed"]},
+    "environment": {"type": "string"},
+    "limitations": {"type": "array", "items": {"type": "string"}},
     "qualified": {"type": "boolean"},
     "security_gates": {"type": "object", "additionalProperties": {"type": "boolean"}},
     "score": {"type": ["number", "null"], "minimum": 0, "maximum": 100},

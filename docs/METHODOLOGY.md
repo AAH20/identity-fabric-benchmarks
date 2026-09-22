@@ -18,6 +18,8 @@ Qualified systems may be scored across assurance, resilience, performance, inter
 
 ## Evidence bundle
 
+The AuthZEN adapter currently stores per-fixture hashes of the exact request and response bytes, HTTP status, duration, and whether the request identifier matched. The fixture pack and result are separately hashed in the shared assurance envelope. These hashes permit comparison with retained artifacts; they are not signatures or independent evidence anchors. The included local mock demonstrates the harness, not a real provider.
+
 A publishable bundle contains:
 
 1. Scenario-pack ID, version and digest.
