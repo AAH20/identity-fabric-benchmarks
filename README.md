@@ -24,7 +24,7 @@ flowchart LR
     O --> G{Security gates}
     G -->|gate failure| F[Unqualified result]
     G -->|all pass| M[Performance and assurance score]
-    M --> E[Signed evidence bundle]
+    M --> E[Evidence bundle; signing planned]
     E --> L[Public result ledger]
     E --> C[AgentIAM and GRC Claw]
     E --> R[Robot Black Box]
@@ -43,7 +43,7 @@ score = 0.35 assurance + 0.25 resilience + 0.20 performance
       + 0.10 interoperability + 0.10 evidence quality
 ```
 
-The v0.1 CLI validates the scenario pack and runs a deterministic reference adapter to prove the result contract. Real provider adapters must report observed results and attach evidence; self-reported marketing values are not benchmark results.
+The CLI validates the scenario pack and runs a deterministic reference adapter to prove the result contract. The reference run has no numeric score (`score: null`, `score_basis: not-scored`), even when its gates pass. Real provider adapters must report observed results and attach evidence; self-reported marketing values are not benchmark results.
 
 ## Core benchmark families
 
@@ -65,9 +65,27 @@ The v0.1 CLI validates the scenario pack and runs a deterministic reference adap
 ```bash
 python -m pip install -e .
 identity-fabric-bench validate
-identity-fabric-bench run --output reports/reference-result.json
+identity-fabric-bench run --output reports/reference-result.json --assurance-output reports/reference-assurance.json
 python -m unittest discover -s tests -v
 ```
+
+The optional assurance envelope follows [BioPhysical Assurance Commons' `assurance-result.v1` contract](https://github.com/AAH20/biophysical-assurance-commons/tree/main/packages/assurance-contracts), with pack and artifact digests. The reference run declares `synthetic-reference` and `verification: none`; it makes no claim of independent verification or provider performance.
+
+## AuthZEN decision adapter
+
+The experimental adapter sends synthetic [AuthZEN 1.0 Access Evaluation](https://openid.net/specs/authorization-api-1_0.html) requests and checks the Boolean decision, HTTP response, and matching `X-Request-ID`. Each observation records latency, status, and SHA-256 hashes of the exact request and response bytes. A failed transport or malformed response fails its gate closed. No raw decision payload, bearer token, or secret is included in the result.
+
+Run the bundled synthetic policy decision point in one terminal, then the harness in another:
+
+```bash
+python examples/authzen_mock.py --port 8765
+identity-fabric-bench run-authzen \
+  --endpoint http://127.0.0.1:8765/access/v1/evaluation \
+  --output reports/authzen-local.json \
+  --assurance-output reports/authzen-local-assurance.json
+```
+
+The local run is labeled `simulation`. For an authorized remote AuthZEN endpoint, use HTTPS and `--allow-remote`; `--token-env ENV_NAME` reads a bearer token without writing it to results. Configure the synthetic fixture policy on that endpoint first. A remote decision is labeled `provider-observed`, but remains unscored and unverified: this harness does not prove the provider's policy configuration, enforcement, or certification. Redirects are rejected, requests are bounded by a timeout, and no proxy is used.
 
 ## Adapter roadmap
 

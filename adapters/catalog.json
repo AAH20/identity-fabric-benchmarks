@@ -5,7 +5,7 @@
     {"id": "reference", "domain": "reference", "status": "verified"},
     {"id": "oidc-enterprise", "domain": "human-identity", "status": "planned"},
     {"id": "spiffe-spire", "domain": "workload-identity", "status": "planned"},
-    {"id": "authzen", "domain": "authorization", "status": "planned"},
+    {"id": "authzen", "domain": "authorization", "status": "experimental"},
     {"id": "opa", "domain": "policy-engine", "status": "planned"},
     {"id": "cedar", "domain": "policy-engine", "status": "planned"},
     {"id": "pam-enterprise", "domain": "privileged-access", "status": "planned"},
